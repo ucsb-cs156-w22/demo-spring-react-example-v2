@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TodoRepository extends CrudRepository<Todo, Long> {
-  Optional<Todo> findByUserId(Long user_id);
+  Iterable<Todo> findAllByUserId(Long user_id);
 }
