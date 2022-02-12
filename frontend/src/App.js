@@ -28,7 +28,22 @@ function App() {
             <>
               <Route path="/todos/list" element={<TodosIndexPage />} />
               <Route path="/todos/create" element={<TodosCreatePage />} />
-              <Route path="/todos/edit/:todoId" element={<TodosEditPage />} />
+              <Route path="/todos/edit/:id" element={<TodosEditPage />} />
+            </>
+          )
+        }
+        {
+          hasRole(currentUser, "ROLE_USER") && (
+            <>
+              <Route path="/ucsbdates/list" element={<TodosIndexPage />} />
+            </>
+          )
+        }
+         {
+          hasRole(currentUser, "ROLE_ADMIN") && (
+            <>
+              <Route path="/ucsbdates/edit/:id" element={<TodosEditPage />} />
+              <Route path="/ucsbdates/create" element={<TodosCreatePage />} />
             </>
           )
         }
