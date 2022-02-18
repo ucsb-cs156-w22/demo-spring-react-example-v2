@@ -1,5 +1,14 @@
 const studentFixtures = {
- twoStudents: [
+
+  oneStudent:
+  {
+    "id": "abcd1234abcd1234abcd1234",
+    "firstName": "Chris",
+    "lastName": "Gaucho",
+    "perm": 1234567
+  },
+
+  twoStudents: [
     {
       "id": "abcd1234abcd1234abcd1234",
       "firstName": "Chris",
@@ -15,4 +24,4 @@ const studentFixtures = {
   ]
 }
 
-export {studentFixtures }; 
+export { studentFixtures }; 
