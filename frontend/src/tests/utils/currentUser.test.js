@@ -168,6 +168,10 @@ describe("utils/currentUser tests", () => {
             expect(hasRole({ loggedIn: true, root: { rolesList: [] } }, "ROLE_ADMIN")).toBeFalsy();
             expect(hasRole({ loggedIn: true, root: { rolesList: ["ROLE_USER"] } }, "ROLE_ADMIN")).toBeFalsy();
             expect(hasRole({ loggedIn: true, root: { rolesList: ["ROLE_USER", "ROLE_ADMIN"] } }, "ROLE_ADMIN")).toBeTruthy();
+            expect(hasRole({data: { loggedIn: true, root: null } }, "ROLE_ADMIN")).toBeFalsy();
+            expect(hasRole({data: { loggedIn: true, root: { rolesList: [] } } }, "ROLE_ADMIN")).toBeFalsy();
+            expect(hasRole({data: { loggedIn: true, root: { rolesList: ["ROLE_USER"] } } }, "ROLE_ADMIN")).toBeFalsy();
+            expect(hasRole({data: { loggedIn: true, root: { rolesList: ["ROLE_USER", "ROLE_ADMIN"] } } }, "ROLE_ADMIN")).toBeTruthy();
         });
 
     });
