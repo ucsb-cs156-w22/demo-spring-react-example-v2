@@ -1,13 +1,14 @@
 # OAuth Setup
 
-This Spring Boot application is set up to use Google OAuth as it's authentication scheme.
+This Spring Boot application is set up to use GitHub OAuth as it's authentication scheme.
 
 Setting this up on localhost requires the first two steps below; getting this to work on Heroku requires an additional third step.
 
-1. Obtaining a Google *client id* and *client secret*, which is
-   done at the [Google Developer Console](https://console.cloud.google.com/).
+1. Obtaining a GitHub *client id* and *client secret*, which is
+   done at the [GitHub Developer Settings](https://github.com/settings/developers).
 2. Configuring the `.env` file with these values.
 3. Copying the `.env` values to the Heroku app's configuration values.
+4. Prepopulate Database with OAuth Table
 
 Each of these three steps is explained in more detail below.
 
@@ -25,36 +26,9 @@ Each of these three steps is explained in more detail below.
 * There is more information about `.env` vs. `.env.SAMPLE` on this page if you are interested: [docs/environment-variables](environment-variables.md).
 
 
-## Step 1: Obtain a Google client id and client secret
+## Step 1: Obtain a GitHub client id and client secret
 
-1. Login to the Google Developer Console at <https://console.cloud.google.com/>.
-
-2. Create a new project on the top left (or select the project you would like to create your OAuth app in)
-
-2. On the upper left, there is a hamburger menu icon that provides a left navigation menu.
-   
-   * Look for `APIs and Services` then `Credentials`.
-   * On that page, near the top, click the button for `+ CREATE CREDENTIALS`
-   * This makes a pull-down menu where you can select `OAuth Client ID`
-   * For Application Type, select `Web Application`
-   * For name, choose something you will remember; I suggest using the name of your repo, or the name of the Heroku application
-   * Scroll down to the part of the page that says: `Authorized redirect URIs`
-
-3. Under `Authorized redirect URIs`, you'll need to click the `+ ADD URI` button twice to enter two addresses:
-
-   * For localhost, enter: `http://localhost:8080/login/oauth2/code/google`
-     - Note that this *must* be `http` not `https`
-   * For Heroku, enter: `https://myappname.herokuapp.com/login/oauth2/code/google`
-     - Note that you should substitute in *your* app name in place of `my-app-name`
-     - Note that this *must* be `https` not `http`
-
-   ![image](https://user-images.githubusercontent.com/1119017/149854295-8e1c4c63-929c-4706-972d-1962c644a40a.png)
-
-   Then click the blue `CREATE` button.
-   
-   You will now see the client id and client secret values.
-   
-   Keep this window open, since you'll need these values in the next step.
+[GitHub Docs Creating OAuth App](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app)
    
 ## Step 2: Copy `.env.SAMPLE` to `.env` and enter values
 
@@ -74,8 +48,8 @@ The `.env` is in the `.gitignore` because **a file containing secrets should NOT
 After copying, the file `.env` looks like this:
 
 ```
-GOOGLE_CLIENT_ID=see-instructions
-GOOGLE_CLIENT_SECRET=see-instructions
+GITHUB_CLIENT_ID=see-instructions-in-readme
+GITHUB_CLIENT_SECRET=see-instructions-in-readme
 ADMIN_EMAILS=phtcon@ucsb.edu
 ```
 
@@ -108,7 +82,7 @@ The easy way, using the Heroku CLI:
     You should get output like this:
 
     ```
-    Setting GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, ADMIN_EMAILS and restarting ⬢ demo-spring-react-example... done, v6
+    Setting GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, ADMIN_EMAILS and restarting ⬢ demo-spring-react-example... done, v6
     ```
 
     You can check the values by visiting the `Settings` tab 
@@ -134,7 +108,13 @@ The slightly more tedious way:
 3. When finished, restart the application by going to the 
    `Deploy` tab and clicking `Deploy Branch`.
 
-## Troubleshooting
+## Prepopulate Database with OAuth Table
+
+This table must be added to the database whenever it is rebuilt or cleaned. To do this on localhost access the H2 console and run 
+[this sql script](https://github.com/spring-projects/spring-security/blob/main/oauth2/oauth2-client/src/main/resources/org/springframework/security/oauth2/client/oauth2-client-schema.sql) 
+or for postgres run [this sql script](https://github.com/spring-projects/spring-security/blob/main/oauth2/oauth2-client/src/main/resources/org/springframework/security/oauth2/client/oauth2-client-schema-postgres.sql). 
+
+## Troubleshooting (For Google OAuth, still relevenat but picture may look a little different)
 
 If you see this:
 
