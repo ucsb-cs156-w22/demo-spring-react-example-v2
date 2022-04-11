@@ -15,13 +15,13 @@ const ProfilePage = () => {
         )
     }
 
-    const { email, pictureUrl, fullName } = currentUser.root.user;
+    const { email, avatarUrl, fullName } = currentUser.root.user;
     return (
         <BasicLayout>
             <Row className="align-items-center profile-header mb-5 text-center text-md-left">
                 <Col md={2}>
                     <img
-                        src={pictureUrl}
+                        src={avatarUrl}
                         alt="Profile"
                         className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
                     />
