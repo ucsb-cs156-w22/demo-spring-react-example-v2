@@ -10,7 +10,7 @@ export default {
 
 const Template = () => <HomePage />;
 
-export const Default = Template.bind({});
+export const notLoggedIn = Template.bind({});
 
 
 
