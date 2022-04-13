@@ -16,7 +16,7 @@ export default function SourceRepoForm(props) {
         <Form.Control
           id="org"
           type="text"
-          isInvalid={!!errors.org}
+          isInvalid={Boolean(errors.org)}
           {...register("org", { required: "Source Organization is required" })}
         />
         <Form.Control.Feedback type="invalid">
@@ -29,7 +29,7 @@ export default function SourceRepoForm(props) {
         <Form.Control
           id="repo"
           type="text"
-          isInvalid={!!errors.org}
+          isInvalid={Boolean(errors.org)}
           {...register("repo", { required: "Source Repository is required" })}
         />
         <Form.Control.Feedback type="invalid">
@@ -43,7 +43,7 @@ export default function SourceRepoForm(props) {
           id="proj"
           type="number"
           step="1"
-          isInvalid={!!errors.proj}
+          isInvalid={Boolean(errors.proj)}
           {...register("proj", { required: "Source Project Number is required" })}
         />
         <Form.Control.Feedback type="invalid">

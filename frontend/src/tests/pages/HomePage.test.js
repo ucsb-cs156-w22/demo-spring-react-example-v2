@@ -2,12 +2,10 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import HomePage from "main/pages/HomePage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-
 import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-import { useGlobalFilter } from "react-table";
 
 describe("HomePage tests", () => {
 
@@ -44,6 +42,8 @@ describe("HomePage tests", () => {
     test("When you fill in form and click submit, the right things happens", async () => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
 
+        const consoleLogMock = jest.spyOn(console, 'log').mockImplementation();
+
         const { getByText, getByLabelText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -64,6 +64,17 @@ describe("HomePage tests", () => {
         fireEvent.change(sourceRepositoryField, { target: { value: 'Test repo' } })
         fireEvent.change(sourceProjectNameField, { target: { value: '9' } })
         fireEvent.click(button);
+
+        const expectedSourceInfo = {
+            org: "Test org",
+            proj: "9",
+            repo: "Test repo",
+        };
+
+        await waitFor(() => expect(consoleLogMock).toBeCalled());
+        expect(console.log.mock.calls[0][0]).toEqual(expectedSourceInfo);
+
+        consoleLogMock.mockRestore();
     });
 
 });
