@@ -11,24 +11,6 @@ describe(SourceForm, () => {
     await waitFor(() => expect(getByText(/Submit/)).toBeInTheDocument());
   });
 
-  it("has Correct Error messsages on bad input", async () => {
-    const onSubmit = jest.fn();
-    const { getByTestId, getByLabelText } = render(<SourceForm onSubmit={onSubmit} />);
-
-    await waitFor(() => expect(getByLabelText("Source Organization")).toBeInTheDocument());
-    const sourceOrganizationField = getByLabelText("Source Organization");
-    const sourceRepositoryField = getByLabelText("Source Repository");
-    const sourceProjectNameField = getByLabelText("Source Project Number");
-    const button = getByTestId("SourceForm-Submit-Button");
-
-    fireEvent.change(sourceOrganizationField, { target: { value: 'Test org' } })
-    fireEvent.change(sourceRepositoryField, { target: { value: 'Test repo' } })
-    fireEvent.change(sourceProjectNameField, { target: { value: 'ecewc' } })
-    fireEvent.click(button);
-
-    expect(onSubmit).not.toBeCalled();
-  });
-
   it("has Correct Error messsages on missing input", async () => {
     const onSubmit = jest.fn();
     await act(async () => render(<SourceForm onSubmit={onSubmit} />));

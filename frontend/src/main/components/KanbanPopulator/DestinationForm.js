@@ -1,7 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
-export default function SourceForm(props) {
+export default function DestinationForm(props) {
   const { onSubmit } = props;
   const {
     register,
@@ -12,12 +12,12 @@ export default function SourceForm(props) {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="srcOrg">Source Organization</Form.Label>
+        <Form.Label htmlFor="destOrg">Destination Organization</Form.Label>
         <Form.Control
-          id="srcOrg"
+          id="destOrg"
           type="text"
           isInvalid={Boolean(errors.org)}
-          {...register("org", { required: "Source Organization is required" })}
+          {...register("org", { required: "Destination Organization is required" })}
         />
         <Form.Control.Feedback type="invalid">
           {errors.org?.message}
@@ -25,12 +25,12 @@ export default function SourceForm(props) {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="srcRepo">Source Repository</Form.Label>
+        <Form.Label htmlFor="destRepo">Destination Repository</Form.Label>
         <Form.Control
-          id="srcRepo"
+          id="destRepo"
           type="text"
           isInvalid={Boolean(errors.org)}
-          {...register("repo", { required: "Source Repository is required" })}
+          {...register("repo", { required: "Destination Repository is required" })}
         />
         <Form.Control.Feedback type="invalid">
           {errors.repo?.message}
@@ -38,20 +38,19 @@ export default function SourceForm(props) {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="srcProj">Source Project Number</Form.Label>
+        <Form.Label htmlFor="destProj">Destination Project Name</Form.Label>
         <Form.Control
-          id="srcProj"
-          type="number"
-          step="1"
+          id="destProj"
+          type="text"
           isInvalid={Boolean(errors.proj)}
-          {...register("proj", { required: "Source Project Number is required" })}
+          {...register("proj", { required: "Destination Project Name is required" })}
         />
         <Form.Control.Feedback type="invalid">
           {errors.proj?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button type="submit" data-testid="SourceForm-Submit-Button">Submit Source</Button>
+      <Button type="submit" data-testid="DestinationForm-Submit-Button">Submit Destination</Button>
     </Form>
   );
 }
