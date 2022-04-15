@@ -1,5 +1,4 @@
-import { fireEvent, render, waitFor, screen, act} from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import HomePage from "main/pages/HomePage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
@@ -74,31 +73,6 @@ describe("HomePage tests", () => {
         await waitFor(() => expect(consoleLogMock).toHaveBeenCalledTimes(1));
         expect(console.log.mock.calls[0][0]).toEqual(expectedSourceInfo);
 
-        // await waitFor(() => expect(getByLabelText("Destination Organization")).toBeInTheDocument());
-        // const destinationOrganizationField = getByLabelText("Destination Organization");
-        // const destinationRepositoryField = getByLabelText("Destination Repository");
-        // const destinationProjectNameField = getByLabelText("Destination Project Name");
-        // const destinationButton = getByTestId("DestinationForm-Submit-Button");
-
-
-        // fireEvent.change(destinationOrganizationField, { target: { value: 'Test destination org' } })
-        // fireEvent.change(destinationRepositoryField, { target: { value: 'Test destination repo' } })
-        // fireEvent.change(destinationProjectNameField, { target: { value: 'Test proj name' } })
-        // fireEvent.click(destinationButton);
-
-        // const expectedDestinationInfo = {
-        //     org: "Test destination org",
-        //     proj: "Test proj name",
-        //     repo: "Test destination repo",
-        // };
-
-        // // await waitFor(() => expect(consoleLogMock).toHaveBeenCalledTimes(2));
-        // // expect(console.log.mock.calls[0][0]).toEqual(expectedSourceInfo);
-        // // expect(console.log.mock.calls[0][1]).toEqual(expectedDestinationInfo);
-        // // await waitFor(() => expect(console.log).toHaveBeenCalledWith(expectedDestinationInfo));
-        // // await waitFor(() => expect(consoleLogMock).toHaveBeenCalledTimes(1));
-        // // expect(console.log.mock.calls[0][0]).toEqual(expectedDestinationInfo);
-
         consoleLogMock.mockRestore();
     });
 
@@ -107,21 +81,7 @@ describe("HomePage tests", () => {
 
         const consoleLogMock = jest.spyOn(console, 'log').mockImplementation();
 
-        // await act(async () => {
-        //     render(
-        //         <QueryClientProvider client={queryClient}>
-        //             <MemoryRouter>
-        //                 <HomePage />
-        //             </MemoryRouter>
-        //         </QueryClientProvider>
-        //     );
-        //     userEvent.type(screen.getByLabelText(/Destination Organization/), "Test org");
-        //     userEvent.type(screen.getByLabelText(/Destination Repository/), "Test repo");
-        //     userEvent.type(screen.getByLabelText(/Destination Project Name/), "Test proj name");
-        //     userEvent.click(screen.getByText("Submit Destination"));
-        // });
-
-        const { getByText, getByLabelText, getByTestId } = render(
+        const { getByLabelText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <HomePage />
@@ -134,7 +94,6 @@ describe("HomePage tests", () => {
         const destinationRepositoryField = getByLabelText("Destination Repository");
         const destinationProjectNameField = getByLabelText("Destination Project Name");
         const destinationButton = getByTestId("DestinationForm-Submit-Button");
-        // const destinationButton = getByText("Submit Destination");
 
 
         fireEvent.change(destinationOrganizationField, { target: { value: 'Test destination org' } })
@@ -142,11 +101,6 @@ describe("HomePage tests", () => {
         fireEvent.change(destinationProjectNameField, { target: { value: 'Test proj name' } })
         fireEvent.click(destinationButton);
 
-        // expect(console.log.mock.calls[0][0]).toMatchObject({
-        //     org: "Test org",
-        //     proj: "Test proj name",
-        //     repo: "Test repo",
-        //   });
 
         const expectedDestinationInfo = {
             org: "Test destination org",
@@ -154,10 +108,6 @@ describe("HomePage tests", () => {
             repo: "Test destination repo",
         };
 
-        // await waitFor(() => expect(consoleLogMock).toHaveBeenCalledTimes(2));
-        // expect(console.log.mock.calls[0][0]).toEqual(expectedSourceInfo);
-        // expect(console.log.mock.calls[0][1]).toEqual(expectedDestinationInfo);
-        // await waitFor(() => expect(console.log).toHaveBeenCalledWith(expectedDestinationInfo));
         await waitFor(() => expect(consoleLogMock).toHaveBeenCalledTimes(1));
         expect(console.log.mock.calls[0][0]).toEqual(expectedDestinationInfo);
 
