@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.example.controllers;
 
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
+import edu.ucsb.cs156.example.errors.GraphQLResponseErrorException;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Map;
 
 @Slf4j
@@ -26,9 +28,18 @@ public abstract class ApiController {
     return Map.of("message", message);
   }
 
+  @ExceptionHandler({ GraphQLResponseErrorException.class })
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public Object handleGenericException(Throwable e) {
+    return Map.of(
+      "type", e.getClass().getSimpleName(),
+      "message", e.getMessage()
+    );
+  }
+
   @ExceptionHandler({ EntityNotFoundException.class })
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public Object handleGenericException(Throwable e) {
+  public Object handleNotFoundException(Throwable e) {
     return Map.of(
       "type", e.getClass().getSimpleName(),
       "message", e.getMessage()
