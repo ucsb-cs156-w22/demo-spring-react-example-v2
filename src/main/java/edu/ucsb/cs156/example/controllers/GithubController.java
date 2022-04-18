@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.example.controllers;
 
 import edu.ucsb.cs156.example.services.GithubService;
+import edu.ucsb.cs156.example.models.SourceRepo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,22 +32,28 @@ public class GithubController extends ApiController {
     private GithubService github;
 
     @ApiOperation(value = "Check if source org, repo, and project number is valid")
-    @GetMapping("/checksource")
-    public String checkSource(
+    @GetMapping("/checkSource")
+    public SourceRepo checkSource(
         @ApiParam("org") @RequestParam String org,
         @ApiParam("repo") @RequestParam String repo, 
-        @ApiParam("repo") @RequestParam int projNum ){
-
-            
-        // ObjectMapper objectMapper = new ObjectMapper();
-        // String responseJson = objectMapper.writeValueAsString(MyObject);
-        // response = {
-        //     org: org,
-        //     repo: repo,
-        //     project: projNum,
-        //     success: true
-        // };
+        @ApiParam("projNum") @RequestParam int projNum ){
         
-        return github.projectId(org, projNum);
+        System.out.println(org);
+        System.out.println(repo);
+        System.out.println(projNum);
+
+        String projectId = github.projectId(org, repo, projNum);
+        Boolean success = true;
+        if(projectId == ""){
+            success = false;
+        }
+        SourceRepo sourceRepo= SourceRepo.builder()
+            .org(org)
+            .repo(repo)
+            .projectNum(projNum)
+            .success(success)
+            .projectId(projectId)
+            .build();
+        return sourceRepo;
     }
 }

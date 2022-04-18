@@ -34,21 +34,23 @@ public class GithubService {
         .toList();
   }
 
-  public String projectId(String org, int number) {
+  public String projectId(String owner, String repo, int projNum) {
     JsonNode result = githubApi.executeGraphQLQuery("""
-      query($org: String! $number: Int!){
-        organization(login: $org){
-          projectNext(number: $number) {
+    query($owner: String!, $repo: String!, $projNum: Int!){
+        repository(owner: $owner, name: $repo) {
+            project(number: $projNum) {
             id
-          }
+            name
+            }
         }
-      }
+        }
       """,
       Map.of(
-        "org", org,
-        "number", number
+        "owner", owner,
+        "repo", repo,
+        "projNum", projNum
       ));
 
-    return result.at("/data/organization/projectNext/id").asText();
+    return result.at("/data/repository/project/id").asText();
   }
 }

@@ -1,28 +1,84 @@
+import React, { useState } from "react"
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import SourceForm from "main/components/KanbanPopulator/SourceForm"
 import DestinationForm from "main/components/KanbanPopulator/DestinationForm"
 import { useCurrentUser } from "main/utils/currentUser";
-import { useBackend } from "main/utils/useBackend";
+import { useBackendMutation } from "main/utils/useBackend";
+import { toast } from "react-toastify";
 
 export default function HomePage() {
+  const [source, setSource] = useState({
+    org:"",
+    repo:"",
+    projNum: null,
+    projectId: ""
+  });
 
   const { data: currentUser } = useCurrentUser();
 
-  if (!currentUser.loggedIn) {
+  const onSuccess = (response) => {
+    if(response.success){
+      setSource({
+        org: response.org,
+        repo: response.repo,
+        projNum: response.projectNum,
+        projectId: response.projectId
+      });
+    }
+    else{
+      const errorMessage = `Error Checking Source. Ensure Organization, Repository and Project Number are all valid`;
+      toast(errorMessage);
+    }
+  }
+
+  const objectToAxiosParams = (data) => ({
+    method: "GET",
+    url: "/api/gh/checkSource",
+    params: {
+      org: data.org,
+      repo: data.repo,
+      projNum: data.proj
+    }
+  });
+
+  const mutation = useBackendMutation(
+    objectToAxiosParams,
+    { onSuccess },
+  );
+
+  const onSubmitSource = async (data) => {
+    console.log(data);
+
+    mutation.mutate(data);
+
+    // const responseSuccess = {
+    //   org: "ucsb-cs156-w22",
+    //   repo: "HappierCows",
+    //   projectNum: 1,
+    //   projectId: "afbajfbgfna",
+    //   success: true
+    // }
+
+    // const responseFail = {
+    //   org: "fakeOrg",
+    //   repo: "fakeRepo",
+    //   projectNum: 8,
+    //   projectId: "",
+    //   success: false
+    // }
+  }
+
+  const onSubmitDestination = async (data) => {
+    console.log(data);
+  }
+
+  if (!currentUser.loggedIn) { 
     return (
       <BasicLayout>
       <p>Not logged in. Please login to use the Kanban Populator</p>
       </BasicLayout>
     )
   } 
-
-  const onSubmitSource = async (data) => {
-    console.log(data);
-  }
-
-  const onSubmitDestination = async (data) => {
-    console.log(data);
-  }
 
   return (
     <BasicLayout>
