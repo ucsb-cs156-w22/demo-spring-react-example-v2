@@ -32,22 +32,19 @@ public class GithubController extends ApiController {
     private GithubService github;
 
     @ApiOperation(value = "Check if source org, repo, and project number is valid")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/checkSource")
     public SourceRepo checkSource(
         @ApiParam("org") @RequestParam String org,
         @ApiParam("repo") @RequestParam String repo, 
         @ApiParam("projNum") @RequestParam int projNum ){
-        
-        System.out.println(org);
-        System.out.println(repo);
-        System.out.println(projNum);
 
         String projectId = github.projectId(org, repo, projNum);
         Boolean success = true;
         if(projectId == ""){
             success = false;
         }
-        SourceRepo sourceRepo= SourceRepo.builder()
+        SourceRepo sourceRepo = SourceRepo.builder()
             .org(org)
             .repo(repo)
             .projectNum(projNum)

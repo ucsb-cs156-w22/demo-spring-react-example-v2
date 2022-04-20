@@ -7,17 +7,13 @@ import { useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify";
 
 export default function HomePage() {
-  const [source, setSource] = useState({
-    org:"",
-    repo:"",
-    projNum: null,
-    projectId: ""
-  });
+  const [source, setSource] = useState({});
 
   const { data: currentUser } = useCurrentUser();
 
   const onSuccess = (response) => {
     if(response.success){
+      console.log(response);
       setSource({
         org: response.org,
         repo: response.repo,
@@ -47,25 +43,7 @@ export default function HomePage() {
   );
 
   const onSubmitSource = async (data) => {
-    console.log(data);
-
     mutation.mutate(data);
-
-    // const responseSuccess = {
-    //   org: "ucsb-cs156-w22",
-    //   repo: "HappierCows",
-    //   projectNum: 1,
-    //   projectId: "afbajfbgfna",
-    //   success: true
-    // }
-
-    // const responseFail = {
-    //   org: "fakeOrg",
-    //   repo: "fakeRepo",
-    //   projectNum: 8,
-    //   projectId: "",
-    //   success: false
-    // }
   }
 
   const onSubmitDestination = async (data) => {
