@@ -14,10 +14,10 @@ import edu.ucsb.cs156.example.ControllerTestCase;
 
 import java.util.Map;
 
-class GithubServiceTests extends ControllerTestCase {
+class GithubGraphQLServiceTests extends ControllerTestCase {
 
-  @MockBean
-  GithubGraphQLService mockGithubApi;
+//   @MockBean
+//   GithubGraphQLService mockGithubApi;
 
 //   @Test
 //   void test_projectId_returns_id() {
@@ -47,28 +47,37 @@ class GithubServiceTests extends ControllerTestCase {
 //     assertEquals(githubService.projectId(), "PRO_kwLOG0U47s4A11-W");
 //   }
 
-//   @Test
-//   void test_projectId_returns_empty() {
+  // @Test
+  // void test_projectId_returns_empty() {
 
-//     GithubService githubService = mock(GithubService.class);
-//     GraphQLResponse gqlResponse = GraphQLResponse;
-//     when(mockGithubApi.executeGraphQLQuery("""
-//         query($owner: String!, $repo: String!, $projNum: Int!){
-//             repository(owner: $owner, name: $repo) {
-//                 project(number: $projNum) {
-//                 id
-//                 name
-//                 }
-//             }
-//             }
-//           """,
-//           Map.of(
-//             "owner", "ucsb-cs156-w22",
-//             "repo", "HappierCows",
-//             "projNum", 1
-//           )))
-//         .thenReturn(gqlResponse);
-//     assertEquals(githubService.projectId("ucsb-cs156-w22", "HappierCows", 1), "");
-//   }
+  //   GithubGraphQLService githubGraphQLService = mock(GithubGraphQLService.class);
+  //   GraphQLResponse gqlResponse = new GraphQLResponse("""
+  //       {
+  //           "repository" : {
+  //               "project" : {
+  //                   "id" : "",
+  //                   "name" : ""
+  //               }
+  //           }
+  //       }
+  //       """);
+  //   when(executeGraphQLQuery("""
+  //       query($owner: String!, $repo: String!, $projNum: Int!){
+  //           repository(owner: $owner, name: $repo) {
+  //               project(number: $projNum) {
+  //               id
+  //               name
+  //               }
+  //           }
+  //           }
+  //         """,
+  //         Map.of(
+  //           "owner", "ucsb-cs156-w22",
+  //           "repo", "HappierCows",
+  //           "projNum", 1
+  //         )))
+  //       .thenReturn(gqlResponse);
+  //   assertEquals(githubGraphQLService.projectId("ucsb-cs156-w22", "HappierCows", 1), "");
+  // }
 
 }

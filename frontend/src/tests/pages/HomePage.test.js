@@ -59,12 +59,10 @@ describe("HomePage tests", () => {
             success: true
         };
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
-        axiosMock.onGet("/api/gh/checkSource").reply(200, expectedSourceInfo);
+        axiosMock.onGet("/api/gh/checkSource", { params: { org: "ucsb-cs156-w22", repo: "HappierCows", projNum: "1"} })
+            .reply(200, expectedSourceInfo);
 
-        // const axiosSpy = jest.spyOn(axios, "get");
-        const consoleLogMock = jest.spyOn(console, 'log').mockImplementation();
-
-        const { getByLabelText, getByTestId } = render(
+        const { getByText, getByLabelText, getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
                     <HomePage />
@@ -83,12 +81,7 @@ describe("HomePage tests", () => {
         fireEvent.change(sourceProjectNumberField, { target: { value: '1' } })
         fireEvent.click(sourceButton);
 
-        await waitFor(() => expect(consoleLogMock).toHaveBeenCalledTimes(1));
-        expect(axiosSpy).toHaveBeenCalledTimes(2);
-        expect(console.log.mock.calls[0][0]).toEqual(expectedSourceInfo);
-
-        // axiosSpy.mockRestore();
-        consoleLogMock.mockRestore();
+        await waitFor(() => expect(getByText("PRO_kwLOG0U47s4A11-W", {exact: false})).toBeInTheDocument());
     });
 
     test("When you fill in the source form and click submit, returns source not found", async () => {

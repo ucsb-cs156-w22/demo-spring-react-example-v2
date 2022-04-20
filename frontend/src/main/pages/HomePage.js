@@ -13,7 +13,7 @@ export default function HomePage() {
 
   const onSuccess = (response) => {
     if(response.success){
-      console.log(response);
+      // console.log(`Successful Response from api/gh/checkSource: ${response}`);
       setSource({
         org: response.org,
         repo: response.repo,
@@ -28,6 +28,7 @@ export default function HomePage() {
   }
 
   const objectToAxiosParams = (data) => ({
+    // Stryker disable next-line StringLiteral : get is the default
     method: "GET",
     url: "/api/gh/checkSource",
     params: {
@@ -63,7 +64,7 @@ export default function HomePage() {
       <div className="pt-2">
         <h1>Kanban Board Populator</h1>
         <h2>Specify Source</h2>
-        <SourceForm onSubmit={onSubmitSource}/>
+        <SourceForm onSubmit={onSubmitSource} source={source}/>
         <h2>Specify Destination and new Kanban Board Name</h2>
         <DestinationForm onSubmit={onSubmitDestination}/>
       </div>
